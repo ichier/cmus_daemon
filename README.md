@@ -49,7 +49,7 @@ Continue with creating the service-file, enabling and starting it:
     $ systemctl start cmusd
 
 
-### Usage
+## Usage
 
 - just type `cmusd` without parameters to get help.
 
@@ -61,3 +61,7 @@ Most useful:
 - `cmusd g` to get cmus screen (`ctrl`-`a` + `d` to detach)
 - `cmusd rw` to restart webserver (sometimes hangs)
 - `cmusd dst` to show systemd-status of cmusd
+
+
+##
+_tested on a ubuntu server 19.10_
