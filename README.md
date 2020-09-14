@@ -32,7 +32,7 @@ First, navigate to the folder you want the program in, get `cmusd`, put a symlin
     $ ln -s ./cmusr /usr/bin/cmusr
     $ cp ./cmusd.service.conf ./cmusd.conf
 
-Now edit `./cmusd.conf` according to your needs.  
+- Now edit `./cmusd.conf` according to your needs.  
 At least do the password and replace all occurences of myusername to your username. That will be the owner of the screens created.
 
 ## Installing the cmusd systemd-service
@@ -41,8 +41,9 @@ First, create the service-file:
 
     $ cp ./cmusd.service.example ./cmusd.service
 
-Now edit `./cmusd.service` by changing all occurences of myusername.  
-Continue with creating the service-file, enabling and starting it:
+- Now edit `./cmusd.service` by changing all occurences of myusername.
+  
+Continue with creating a symlick to /etc/systemd/system, enabling and starting it:
 
     $ ln -s ./cmusd.service /etc/systemd/system/cmusd.service
     $ systemctl enable cmusd
