@@ -3,7 +3,7 @@
 # cmus_daemon / cmusd
 
 This is a script to start, stop and access [cmus](https://cmus.github.io/), a powerful console music player, as well as the web-remote-control-server [cmus_app](https://github.com/ichier/cmus_app) detached to a [screen](https://linux.die.net/man/1/screen).  
-You can quickly send some commands while cmus is in background or use the webinterface. 
+You can quickly send some commands while cmus is in background or use the webinterface.  
 It comes with a systemd.service in order to automatically run as a _daemon_ at machine-startup.
 
 ## Dependencies
