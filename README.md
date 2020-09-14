@@ -43,7 +43,7 @@ First, create the service-file:
 
 - Now edit `./cmusd.service` by changing all occurences of myusername.
   
-Continue with creating a symlick to /etc/systemd/system, enabling and starting it:
+Continue with creating a symlink to /etc/systemd/system, enabling and starting it:
 
     $ ln -s ./cmusd.service /etc/systemd/system/cmusd.service
     $ systemctl enable cmusd
