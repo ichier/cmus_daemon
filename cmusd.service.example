@@ -1,0 +1,14 @@
+[Unit]
+Description=cmusd (consolemusicplayer in screen with remote-web-server)
+After=syslog.target network.target sound.target
+
+[Service]
+User=myusername
+Group=audio
+WorkingDirectory=/home/myusername/cmus_daemon
+Type=forking
+ExecStart=/home/myusername/cmus_daemon/cmusd start
+ExecStop=/home/myusername/cmus_daemon/cmusd stop
+
+[Install]
+WantedBy=multi-user.target

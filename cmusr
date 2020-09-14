@@ -1,0 +1,17 @@
+#! /bin/sh
+# Description: send command to running cmus via ip
+
+MYDIR=$(dirname "$(readlink -f "$0")")
+. "$MYDIR/cmusd.conf"
+
+case "$1" in
+  "")
+	echo "no command?"
+	;;
+  *)
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW $1 $2 $3 $4 $5 $6
+	exit 3
+	;;
+esac
+
+:

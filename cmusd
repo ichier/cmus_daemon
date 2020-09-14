@@ -1,0 +1,142 @@
+#!/bin/bash
+
+# provides starting and stopping of cmus music player and python web-remote-app in detached screens
+# as well as some shortcuts to get into the screens, very handy if within path|/usr/bin
+# ichier 2019
+
+CD_VERSION="1.0"
+PATH=/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin
+MYDIR=$(dirname "$(readlink -f "$0")")
+. "$MYDIR/cmusd.conf"
+
+
+#todo: status based on screen or pid
+
+
+if [ "$USER" != "$DAEMON_USER" ]
+then
+	echo "cmusd: Error! USER is $USER but should be $DAEMON_USER (says your config)" >&2
+	exit 3
+fi
+
+
+start_cmus(){
+	echo "starting cmus..."
+	if [ "$1" -eq 1 ];
+	then flags="-mS"
+	else flags="-dmS"
+	fi
+	screen $flags cmusplayer cmus --listen $CMUS_IP
+}
+stop_cmus(){
+	echo "stopping cmus..."
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW -C wq
+}
+
+start_ws(){
+	echo "starting webservice..."
+	cd $CMUS_WS
+	if [ "$1" -eq 1 ];
+	then flags="-mS"
+	else flags="-dmS"
+	fi
+	screen $flags cmuswebserv python $CMUS_WA -f $CMUS_WC
+}
+stop_ws(){
+	screen -S cmuswebserv -X quit
+}
+
+
+
+case "$1" in
+  start)
+	start_cmus 0
+	start_ws 0
+	exit $?
+	;;
+  restart|reload|force-reload)
+	echo "Nope! Please restart player or webserver separatly: restartwebserv (rw) | restartplayer (rp)" >&2
+	exit 3
+	;;
+
+  stop)
+	stop_cmus
+	stop_ws
+	;;
+
+  dstatus|dst)
+	systemctl status cmusd.service
+	;;
+
+  play|p)
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW -p
+	;;
+  pause|u)
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW -u
+	;;
+  next|n)
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW -n
+	;;
+  prev|r)
+	cmus-remote --server $CMUS_IP --passwd $CMUS_PW -r
+	;;
+
+  getscreen|g)
+	screen -d -r cmusplayer
+	;;
+  startcmus)
+	start_cmus 0
+	;;
+  startcmusonscreen|sos)
+	start_cmus 1
+	;;
+  stopcmus)
+	stop_cmus
+	;;
+  restartcmus|rp)
+	stop_cmus
+	sleep 5
+	# instead: check if running!..
+	start_cmus 0
+	;;
+
+  getwebserv|gw)
+	screen -d -r cmuswebserv
+	;;
+  stopwebserv)
+	stop_ws
+	;;
+  startwebserv)
+	start_ws 0
+	;;
+  restartwebserv|rw)
+	echo "stopping and ..."
+	stop_ws
+	start_ws 0
+	;;
+  startwebservonscreen|swsos)
+	start_ws 1
+	;;
+
+  *)
+	echo
+	echo "CMUS DAEMON v$CD_VERSION"
+	echo " Usage: cmusd [arg]"
+	echo
+	echo " Full Daemon Controls: start|stop"
+	echo " cmus Daemon Controls: startcmus|stopcmus|restartcmus(rp)"
+	echo "         screentweaks: getscreen(g) | startcmusonscreen(sos)"
+	echo " Webservice Controls:  startwebserv|stopwebserv|restartwebserv(rw)"
+	echo "         screentweaks: getwebserv(gw) staertwebservonscreen(swsos)"
+	echo
+	echo " Player Controls: start|stop|play(p)|pause(u)|next(n)"
+	echo " For custom commands use cmusr [args]"
+	echo
+	echo " Systemdstatus Shorthand: dstatus(dst)"
+	echo
+	echo " Hint: detach screen with C-a d"
+	echo
+	;;
+esac
+
+:

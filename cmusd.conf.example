@@ -1,0 +1,6 @@
+DAEMON_USER=myusername
+CMUS_IP=127.0.0.1
+CMUS_PW=yourcmuspassword
+CMUS_WS=/home/myusername/cmus_app/
+CMUS_WA=app.py
+CMUS_WC=config
