@@ -10,7 +10,7 @@ It comes with a systemd.service in order to automatically run as a _daemon_ at m
 
 You need, of course, all the stuff that it's about `cmus`, `screen` and `cmus_app` 
 
-_Note: this is just supposed to work. Paths don't necessarily need to be your home-folder._
+_Note: this is supposed to just work. Paths don't necessarily need to be your home-folder._
 
 Installing dependencies in debian:
 
